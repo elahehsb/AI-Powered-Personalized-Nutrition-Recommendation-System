@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Personalized Nutrition Recommendation</title>
+</head>
+<body>
+    <h1>Personalized Nutrition Recommendation</h1>
+    <form id="nutrition-form">
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required><br><br>
+        <label for="weight">Weight (kg):</label>
+        <input type="number" id="weight" name="weight" required><br><br>
+        <label for="height">Height (cm):</label>
+        <input type="number" id="height" name="height" required><br><br>
+        <label for="dietary_preferences">Dietary Preferences:</label>
+        <input type="text" id="dietary_preferences" name="dietary_preferences" required><br><br>
+        <label for="health_conditions">Health Conditions:</label>
+        <input type="text" id="health_conditions" name="health_conditions"><br><br>
+        <label for="daily_caloric_intake">Daily Caloric Intake:</label>
+        <input type="number" id="daily_caloric_intake" name="daily_caloric_intake" required><br><br>
+        <button type="submit">Get Recommendation</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('nutrition-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const data = {
+                age: document.getElementById('age').value,
+                weight: document.getElementById('weight').value,
+                height: document.getElementById('height').value,
+                dietary_preferences: document.getElementById('dietary_preferences').value,
+                health_conditions: document.getElementById('health_conditions').value,
+                daily_caloric_intake: document.getElementById('daily_caloric_intake').value
+            };
+
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            document.getElementById('result').innerText = `Recommended Caloric Intake: ${result.recommended_caloric_intake}`;
+        });
+    </script>
+</body>
+</html>
