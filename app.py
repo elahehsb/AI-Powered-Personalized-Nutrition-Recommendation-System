@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import pickle
 import numpy as np
 import pandas as pd
@@ -9,6 +9,10 @@ with open('nutrition_model.pkl', 'rb') as file:
     model = pickle.load(file)
 
 app = Flask(__name__)
+
+app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
